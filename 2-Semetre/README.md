@@ -1,4 +1,1 @@
-# ProjetosIntegradores 
- Meus projetos integradores desenvolvidos e apresentados durante o período do curso de sistemas de informação. 
- <br>
- Os arquivos estão segregados por semestre.
+Este projeto apresenta à aplicação de normalizações em um modelo entidade relacionamento
