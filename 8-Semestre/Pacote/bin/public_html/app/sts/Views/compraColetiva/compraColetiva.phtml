@@ -1,0 +1,80 @@
+<main class="main-custom">
+    <div class="container h-100 pt-md-3 pb-5">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div id="carouselCollectiveShoppingListControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselCollectiveShoppingListControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselCollectiveShoppingListControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</main>
+
+<script>
+    window.onload = () => {
+        getCollectiveShoppingList();
+    }
+
+    // FUNCTION PARA PEGAR LISTA DE PRODUTOS
+    async function getCollectiveShoppingList() {
+        const response = await fetch(URL + 'compra-coletiva-controller/get-products', {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            }
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+            records = json.res;
+            console.log(records)
+            buildCarrousel(records);
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+            }, 5000);
+        }
+    }
+
+    function buildCarrousel(data) {
+        const carrousel = document.querySelector('#carouselCollectiveShoppingListControls .carousel-inner');
+        let carouselInnerHTML = '';
+
+        data.forEach((record, index) => {
+            const isActive = index === 0 ? 'active' : '';
+            carouselInnerHTML +=
+                `<div class="carousel-item ${isActive}">
+                    <div class="card card-carrousel">
+                        <div class="card-img-carrousel">
+                            <img src="<?php echo URL_ASSETS ?>img/produtos/${record.imagem}" height="200" class="card-img-top" alt="Imagem do produto">
+                        </div>
+                        <div class="card-body-carrousel">
+                            <h5 class="card-titulo-carrousel">${record.descricao}</h5>
+                            <span>Local de retirada:</span>
+                            <p>${record.nome_estabelecimento} | ${record.rua}, ${record.bairro}, ${record.numero} ${record.complemento}, ${record.cidade} - ${record.estado} ${record.cep}</p>
+                            <div class="d-flex justify-content-between">
+                                <p class="card-preco-carrousel"> Valor: ${record.valor}</p>
+                                <p class="card-restam-carrousel">Restam ${record.restam} unidades</p>
+                                <a href="<?php echo URL ?>compra-coletiva-controller/product-details/${record.id_lista_compra}" class="btn btn-outline-secondary btn-lg borda">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+        });
+        carrousel.innerHTML = carouselInnerHTML;
+    }
+</script>

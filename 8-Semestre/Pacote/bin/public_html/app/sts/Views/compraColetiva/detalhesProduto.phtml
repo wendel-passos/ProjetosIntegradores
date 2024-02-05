@@ -1,0 +1,205 @@
+<main id="main-detalhes-produto">
+    <div class="container h-100 px-0">
+        <div class="card text-center my-4">
+            <div class="card-body">
+                <img class="get-imagem" height="300" width="250" alt="Imagem do produto">
+
+                <h5 class="get-titulo">Óleo Mobil 4T 20W50 Mineral Litro</h5>
+                <p>Descrição do produto: <span class="get-descricao">#</span></p>
+                <span>Retirada:</span>
+                <p>
+                    <span class="get-nome-estabelecimento">#</span> |
+                    <span class="get-rua">#</span>,
+                    <span class="get-bairro">#</span>,
+                    <span class="get-numero">#</span>
+                    <span class="get-complemento">#</span>,
+                    <span class="get-cidade">#</span> -
+                    <span class="get-estado">#</span>
+                    <span class="get-cep">#</span>
+                </p>
+                <p class="get-valor">#</p>
+                <p>Restam <span class="get-restam">#</span> unidades</p>
+                <a data-toggle="modal" data-target="#modalEntrarFila" href="#" class="btn btn-outline-success btn-lg borda">Entrar na fila</a>
+                <a href="<?php echo URL ?>compra-coletiva-controller/index" class="btn btn-outline-danger btn-lg borda">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL CONFIRMAR PAGAMENTO -->
+<div class="modal fade t-modal" id="modalEntrarFila" tabindex="-1" role="dialog" aria-labelledby="modalEntrarFila" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h5 class="modal-title">Confirmar pagamento</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row justify-content-and">
+                        <div class="col-12 text-center align-self-center">
+
+                            <form id="form-send-compra-coletiva" style="margin: 10px 20px 10px 20px;">
+                                <div>
+                                    <p>
+                                        Após efetuar o pagamento do QR Code, clique em <b>"Confirmar"</b> para concluir o pedido. Você pode verificar o status da compra na seção <b>"Pedidos"</b>.
+                                    </p>
+                                    <img src="<?php echo URL_ASSETS ?>img/produtos/qrcode.png" height="200" width="200" alt="QRCODE">
+                                </div>
+
+                                <div class="mb-1">
+                                    <input class="form-control mt-2 borda" type="number" name="quantidade" id="quantidade" value="1" placeholder="Quantidade">
+                                </div>
+
+                                <p><b>Valor total: <span class="get-valor-total">#</span></b></p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-center borda-form p-0">
+                            <button id="btn-send-compra-coletiva" class="btn btn-secondary btn-block rounded-0 m-0 btn-custom">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let valorUS
+    const getValorTotal = document.querySelector('.get-valor-total');
+    const idLista = <?php echo $this->data['id'] ?>
+
+    window.onload = () => {
+        getProductDetails();
+    }
+
+    // FUNCTION PARA CARREGAR OS DADOS DA LISTA SELECIONADA
+    async function getProductDetails() {
+
+        const response = await fetch(URL + `compra-coletiva-controller/get-product-details/${idLista}`);
+        json = await response.json();
+
+        if (json.cod === 0) {
+            const getTitulo = document.querySelector('.get-titulo');
+            const getDescricao = document.querySelector('.get-descricao');
+            const getValor = document.querySelector('.get-valor');
+            const getRestam = document.querySelector('.get-restam');
+            const getNomeEstabelecimento = document.querySelector('.get-nome-estabelecimento');
+            const getRua = document.querySelector('.get-rua');
+            const getBairro = document.querySelector('.get-bairro');
+            const getNumero = document.querySelector('.get-numero');
+            const getComplemento = document.querySelector('.get-complemento');
+            const getCidade = document.querySelector('.get-cidade');
+            const getEstado = document.querySelector('.get-estado');
+            const getCep = document.querySelector('.get-cep');
+            const getImagem = document.querySelector('.get-imagem');
+
+            getTitulo.innerHTML = json.res[0].descricao
+            getDescricao.innerHTML = json.res[0].descricao
+            getValor.innerHTML = json.res[0].valor
+            getRestam.innerHTML = json.res[0].restam
+            getNomeEstabelecimento.innerHTML = json.res[0].nome_estabelecimento
+            getRua.innerHTML = json.res[0].rua
+            getBairro.innerHTML = json.res[0].bairro
+            getNumero.innerHTML = json.res[0].numero
+            getComplemento.innerHTML = json.res[0].complemento
+            getCidade.innerHTML = json.res[0].cidade
+            getEstado.innerHTML = json.res[0].estado
+            getCep.innerHTML = json.res[0].cep
+            getImagem.src = "<?php echo URL_ASSETS ?>img/produtos/" + json.res[0].imagem
+
+            getValorTotal.innerHTML = json.res[0].valor;
+            valorUS = json.res[0].valorUS
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+            }, 5000);
+        }
+    }
+
+    const quantidade = document.querySelector('#quantidade');
+    quantidade.addEventListener('change', () => {
+        const novoValorTotal = quantidade.value * valorUS;
+        setValorTotal(novoValorTotal)
+    });
+
+    function setValorTotal(valor) {
+        const valorFormatado = valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
+        getValorTotal.innerHTML = valorFormatado;
+    }
+
+    // FUNCTION PARA CRIAR PEDIDO
+    document.querySelector('#btn-send-compra-coletiva').onclick = function(e) {
+        document.querySelector('#btn-send-compra-coletiva').disabled = true;
+        e.preventDefault();
+
+        validate = valCadOrder();
+
+        if (validate) {
+            sendOrder();
+        } else {
+            document.querySelector('#btn-send-compra-coletiva').disabled = false;
+        }
+    };
+
+    async function sendOrder() {
+        const form = new FormData(document.querySelector('#form-send-compra-coletiva'));
+        const response = await fetch(URL + `compra-coletiva-controller/cad-order/${idLista}`, {
+            method: 'POST',
+            Headers: {
+                'Content-type': 'application/json: charset-utf-8',
+            },
+            body: form
+        });
+
+        json = await response.json();
+
+        if (json.cod === 0) {
+
+            const retornoMsg = document.querySelector('.retorno-msg');
+
+            retornoMsg.classList.add('retorno-success');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-success');
+                document.querySelector('#btn-send-compra-coletiva').disabled = false;
+            }, 3000);
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+                document.querySelector('#btn-send-compra-coletiva').disabled = false;
+            }, 3000);
+        }
+    }
+</script>

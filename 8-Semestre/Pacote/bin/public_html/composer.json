@@ -1,0 +1,18 @@
+{
+    "description": "Projeto MVC",
+    "authors": [
+        {
+            "name": "Silvio Lucas dos Santos",
+            "email": "silviolucas_santos@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Adm\\": "app/adm",
+            "Sts\\": "app/sts",
+            "Core\\": "core",
+            "Helper\\": "app/sts/Models/helper"
+        }
+    },
+    "require": {}
+}

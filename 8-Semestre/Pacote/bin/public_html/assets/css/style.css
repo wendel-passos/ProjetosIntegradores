@@ -1,0 +1,279 @@
+/* --------------- ALTERAÇÕES DA ESTRUTURA DO SITE ------------------------------ */
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	font-family: Helvetica, "Trebuchete MS", sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100vh;
+}
+
+
+
+/* --------------- ALTERAÇÕES BOOTSTRAP ------------------------------ */
+.close {
+	background-color: transparent;
+	border: 0;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	opacity: .5;
+}
+
+.btn-block {
+	display: block;
+	width: 100%;
+}
+
+
+
+/* --------------- ALTERAÇÕES GLOBAL ------------------------------ */
+.full-height {
+	height: 86%;
+}
+
+/* COR CINZA BACKGROUND */
+.cor-fundo {
+	background-color: #F3F3F3 !important;
+}
+
+/* ARREDONDAMENTO PARA FORMS */
+.borda {
+	border-radius: 15px;
+}
+
+/* CUSTOMIZAÇÃO PARA IMGS */
+.size-img {
+	width: 90%;
+}
+
+/* CUSTOMIZAÇÃO DA COR DO TEXTO DOS INPUTS DOS FORMULÁRIOS */
+.color-input-form {
+	color: #00000099;
+}
+
+.retorno-success {
+	color: #008000;
+}
+
+.retorno-error {
+	color: #ff0000;
+}
+
+/* CUSTOMIZAÇÃO DA MENSAGEM DE RETORNO DOS FORMULÁRIOS*/
+.retorno-msg {
+	display: none;
+	position: absolute;
+	z-index: 100;
+	width: 100%;
+	margin: 0.2rem;
+	font-size: 1.2rem;
+	text-align: center;
+	background: #FFF;
+}
+
+/* CUSTOMIZAÇÃO DE ERROS PARA INPUTS */
+.error-input-text {
+	color: #ff0000;
+	font-size: 0.7rem;
+	text-align: initial;
+	padding-left: 10px;
+	margin-bottom: 0px;
+}
+
+.error-input-border {
+	border: 2px solid #ff0000;
+}
+
+/* CUSTOMIZAÇÃO INPUT DE SENHA SHOW/HIDDEN */
+.container-password {
+	position: relative;
+}
+
+#icon-password,
+#icon-password2,
+#icon-password3 {
+	position: absolute;
+	top: 30%;
+	right: 1rem;
+	cursor: pointer;
+	color: #00000060;
+}
+
+
+
+/* --------------- ALTERAÇÕES DA NAVBAR ------------------------------ */
+
+/* DIVBISOR DA BARRA DE NAVEGAÇÃO "|" */
+.divisor-nav {
+	height: 20px;
+	border-right: 1px solid #000;
+}
+
+
+
+/* --------------- ALTERAÇÕES DO RODAPÉ ------------------------------ */
+.footer {
+	background-color: #00000080;
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+}
+
+.footer p {
+	margin: 0px;
+}
+
+
+
+/* --------------- ALTERAÇÕES DE LOGIN ------------------------------ */
+/* FONT AEWSOME */
+.fa-facebook-square {
+	color: #3b5998;
+}
+
+.fa-google-plus-square {
+	color: #db4a39;
+}
+
+
+
+/* --------------- ALTERAÇÕES DE CADASTRO ------------------------------ */
+#stage-1 {
+	display: block;
+}
+
+#stage-2 {
+	display: none;
+}
+
+@media (min-width: 768px) {
+
+	.dt-nascimento,
+	.estado,
+	.numero,
+	.complemento {
+		padding-left: 0px !important;
+	}
+}
+
+
+
+/* --------------- ALTERAÇÕES DA HOME ------------------------------ */
+.cor-teste {
+	background-color: #7e0000 !important;
+}
+
+.botao {
+	margin-top: 15%;
+}
+
+@media (min-width: 768px) {
+	.botao {
+		margin-top: 5%;
+	}
+}
+
+
+
+/* --------------- ALTERAÇÕES DO MAPS ------------------------------ */
+.main-custom {
+	height: 83vh;
+}
+
+#map {
+	height: 100%;
+	width: 100%;
+}
+
+/* --------------- ALTERAÇÕES PÁGINAS DE ERRO ------------------------------ */
+.error-status {
+	font-size: 2rem;
+	line-height: 1;
+}
+
+.error-msg {
+	font-size: 1.5rem;
+}
+
+.error-404-text {
+	font-size: 5rem;
+	line-height: 1;
+}
+
+.error-default-text {
+	font-size: 5rem;
+}
+
+/* --------------- ALTERAÇÕES PÁGINA DE COMPRA COLETIVA ------------------------------ */
+/* CSS */
+.carousel-item {
+	width: 100%;
+}
+
+.card-carrousel {
+	display: flex;
+	flex-direction: row;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.card-img-carrousel {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.card-body-carrousel {
+	padding: 20px;
+	flex-grow: 1;
+}
+
+.card-titulo-carrousel {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.card-preco-carrousel,
+.card-restam-carrousel {
+	font-size: 18px;
+	font-weight: bold;
+	color: red;
+}
+
+/* -------- */
+
+.carousel-control-prev,
+.carousel-control-next {
+	top: 50%;
+	transform: translateY(-50%);
+	width: 30px;
+	height: 30px;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+	background-color: #000;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+	background-color: #000;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	font-size: 20px;
+	color: #ccc;
+}

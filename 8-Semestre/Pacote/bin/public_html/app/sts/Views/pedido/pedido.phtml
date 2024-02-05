@@ -1,0 +1,75 @@
+<main id="main-pedido">
+    <div class="container h-100 px-0">
+        <div class="row m-0 py-3 border-bottom ">
+            <h2><strong>Meus Pedidos</strong></h2>
+        </div>
+        <div id="list-orders" class="row justify-content-center m-0">
+
+        </div>
+    </div>
+</main>
+
+<script>
+    window.onload = () => {
+        getOrders();
+    }
+
+    // FUNCTION PARA CARREGAR OS PEDIDOS DO USUÁRIO
+    async function getOrders() {
+        const response = await fetch(URL + 'pedido-controller/get-orders');
+        json = await response.json();
+
+        if (json.cod === 0) {
+            records = json.res;
+            console.log(records)
+            buildList(records);
+
+        } else {
+            const retornoMsg = document.querySelector('.retorno-msg');
+            retornoMsg.classList.add('retorno-error');
+            retornoMsg.style.display = "block";
+            retornoMsg.innerHTML = json.msg;
+
+            setTimeout(function() {
+                retornoMsg.style.display = "none";
+                retornoMsg.classList.remove('retorno-error');
+            }, 5000);
+        }
+    }
+
+    function buildList(data) {
+        const list = document.querySelector('#list-orders');
+        let listInnerHTML = '';
+
+        data.forEach((record, index) => {
+            listInnerHTML +=
+                `<div class="col-md-6 py-3 border-bottom">
+                    <h3><strong>Pedido: #<label class="get-id-pedido">${record.id_pedido}</label></strong></h3>
+
+                    <div>Data: <label class="get-data-pedido">${record.dt_created}</label></div>
+                    <div>Produto: <label class="get-produto">${record.descricao}</label></div>
+                    <div>Quantidade: <label class="get-quantidade">${record.quantidade}</label></div>
+                    <div>Valor Unitário: <label class="get-valor-unit">${record.valor}</label></div>
+                    <div>Valor Total: <label class="get-valor-total">${record.valor_total}</label></div>
+                    <div>Status: <label class="get-status">${record.status}</label></div>
+                </div>
+
+                <div class="col-md-6 py-4 py-sm-3 border-bottom">
+                    <h3><strong>Informações de Retirada</strong></h3>
+
+                    <div>Estabelecimento: <label class="get-nome-estabelecimento">${record.nome_estabelecimento}</label></div>
+                    <div>Telefone: ${record.telefone}</div>
+                    <p>
+                        Rua: <span class="get-rua">${record.rua}</span>,
+                        <span class="get-bairro">${record.bairro}</span>,
+                        <span class="get-numero">${record.numero}</span>
+                        <span class="get-complemento">${record.complemento}</span>,
+                        <span class="get-cidade">${record.cidade}</span> -
+                        <span class="get-estado">${record.estado}</span>
+                        <span class="get-cep">${record.cep}</span>
+                    </p>
+                </div>`
+        });
+        list.innerHTML = listInnerHTML;
+    }
+</script>

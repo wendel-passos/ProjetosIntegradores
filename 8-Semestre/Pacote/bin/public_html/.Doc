@@ -1,0 +1,249 @@
+<!-- 
+*********************************************************************************
+***** TESTE DA CLASSE FORMATCONFING *****
+$f = new \Helper\FormatConfig();
+
+$string = "sts/Views/error/error-404";
+var_dump($f->formatView($string));
+
+
+*********************************************************************************
+***** TESTE DA CLASSE FORMAT *****
+$f = new \Helper\Format();
+
+$string = "11222333444455";
+echo "STRING: " . $string . "<br><br>";
+
+$number = 112222333444455;
+echo "NUMBER: " . $number . "<br><br>";
+
+var_dump($f->docMask($string, "cnpj"));
+
+echo "<br>";
+
+var_dump($f->docMask("42949622836"));
+
+
+*********************************************************************************
+***** CÓDIGO PARA REALIZAR SELECT *****
+$pdoSelect = new \Helper\Read();
+$pdoSelect->fullRead("SELECT id, nome, cpf FROM usuarios WHERE id=:id", "id=63");
+return $pdoSelect->getResult();
+
+$result = $pdoSelect->getResult();
+var_dump($result);
+
+echo "<br><hr><br>";
+
+$result = $pdoSelect->sqlResult();
+var_dump($result);
+exit;
+
+
+*********************************************************************************
+***** CÓDIGO PARA REALIZAR INSERT *****
+$this->data['insert'] = [
+    "nome" => 'Teste Create',
+    "cpf" => '111.111.111-36',
+];
+
+$pdoCreate = new \Helper\Create();
+$pdoCreate->exeCreate("usuarios", $this->data['insert']);
+$result = $pdoCreate->getResult();
+var_dump($result);
+
+echo "<br><hr><br>";
+
+$result = $pdoCreate->sqlResult();
+var_dump($result);
+exit;
+
+
+*********************************************************************************
+***** CÓDIGO PARA REALIZAR UPDATE *****
+$this->data['update'] = [
+    "nome" => 'Teste Update',
+    "cpf" => '111.111.111-36',
+];
+
+$pdoUpdate = new \Helper\Update();
+$pdoUpdate->exeUpdate(
+    "usuarios",
+    $this->data['update'],
+    "WHERE id=:id",
+    "id=67"
+);
+
+$result = $pdoUpdate->getResult();
+var_dump($result);
+
+echo "<br><hr><br>";
+
+$result = $pdoUpdate->sqlResult();
+var_dump($result);
+exit;
+
+
+*********************************************************************************
+***** CÓDIGO PARA REALIZAR DELETE *****
+$pdoDelete = new \Helper\Delete();
+$pdoDelete->exeDelete(
+    "usuarios",
+    "WHERE id=:id",
+    "id=74"
+);
+
+$result = $pdoDelete->getResult();
+var_dump($result);
+
+echo "<br><hr><br>";
+
+$result = $pdoDelete->sqlResult();
+var_dump($result);
+exit;
+
+
+*********************************************************************************
+***** CÓDIGO PARA USAR PÁGINA DE ERRO DEFAULT *****
+$u = new \Helper\Utils;
+$u->errorDefault(
+    'Erro S400: Erro ao atualizar foto de perfil',
+    'Erro',
+    'Voltar',
+    'login-controller/index',
+    'N'
+);
+exit;
+
+return $result;
+
+
+*********************************************************************************
+***** CÓDIGO PARA USAR A FUNÇÃO DE LOG *****
+
+// CHAMA A FUNÇÃO DE LOG
+$this->testeLog();
+
+// MONTA O ARRAY DE LOG
+public function testeLog()
+{
+    $logData = [
+        "dadosUsuario" => [
+            "dateAlter" => Date('d-m-Y H:i'),
+            "data" => [
+                "oldData" => "Array de dados novos",
+                "newData" => "Array de dados antigos"
+            ]
+        ]
+    ];
+
+    // PODE PASSAR TODOS OS ATRIBUTOS POR PARÂMETRO
+    // EX: $this->log($logData, $filePath, $fileName, $fileType);
+    $this->log($logData);
+}
+
+// REALIZA O LOG
+private function log($logData)
+{
+    // DADOS PARA LOG EX: Array $logData
+    // CAMINHO DO ARQUIVO EX: 'usuarios/' . $userId
+    // NOME ARQUIVO EX: 'dados-usuario'
+    // TIPO ARQUIVO EX: 'json'
+
+    $log = new \Helper\Log($logData, 1, 'dados-usuario', 'json');
+    var_dump($log->createLog());
+} 
+-->
+
+
+
+
+** ANOTAÇÕES **
+
+
+AJUSTES E ORGANIZAÇÃO DE CÓDIGO:
+REVISAR/PADRONIZAR COMENTARIOS + OU -
+
+AJUSTES NO BANCO DE DADOS:
+ARRUMAR DOCUMENTAÇÃO, MER E DER
+
+REGRAS DE NEGÓCIO / CORREÇÕES FUTURA:
+USUÁRIOS OU BORRACHARIAS COM STATUS NULL SÃO CADASTROS QUE N FORAM ATIVADOS POR E-MAIL, ATIVOU POR E-MAIL VIRA 1
+
+ALTERAR A MENSAGEM EXIBIDA NO CADASTRO DO USUÁRIO E DA BORRACHARIA QUANDO IMPLEMENTAR PHPMAILER (ENVIAMOS UM E-MIAL PARA O ####, POR FAVOR, VALIDE SEU E-MAIL).
+
+ARRUMAR LÓGICA PARA CADASTRO DE BORRACHARIA, SE O E-MAIL OU TELEFONE JÁ EXISTIR, PERGUNTAR SE A NOVA COORDENADA PERTENCE A BORRACHARIA X (CADA BORRACHARIA VAI TER UMA HASH, PEDIR A HASH MANDAR ELA POR E-MAIL PARA O USUÁRIO VALIDAR).
+
+AJUSTAR A QUERY DE BUSCAR USUÁRIO (getProfile) E BORRACHAIRA (getBorracharias), VALIDAR STATUS DO TELEFONE E ENDEREÇO COLOCANDO MAIS WHERE.
+
+
+IMPLEMENTAÇÕES FUTURAS NÃO OBRIGATÓRIAS:
+LOGIN REDE SOCUAL
+OWASP 10
+JWT
+OAUTH2
+REDIRECT DE HTTP PARA HTTPS
+
+CRIAR LISTA DE ITENS
+INTEGRAÇÃO COM INSTITUIÇÃO DE PAGAMENTO
+
+
+
+** DOCUMENTAÇÃO DE ERROS **
+
+// DESCRIÇÃO DE ABREVIATURA PARA CÓDIGOS DE ERRO
+// "C" - Erros de configuração padrão -> Conexão DB, ConfigView etc...
+// "S" - Erros de páginas dinâmicas -> Formulário = Campo errado, formato errado etc..
+
+(Conn.php)
+Erro C100: Erro na conexão com o banco de dados
+
+(configView.php)
+Erro C200: Falha ao carregar a Página seleciona pelo usuário
+
+(maps.phtml)
+Erro C300: Usuário rejeitou a permisão de localização.
+Erro C310: Localização do usuário indisponível.
+Erro C320: Tempo de requisição expirou.
+Erro C330: LocalizaçÃo indisponível por erro desconhecido.
+
+(StsCadUser.php)
+Erro S100: E-mail e ou CPF já cadastrado no sistema.
+Erro S110: Seção de dados pessoas inválida.
+Erro S120: Seção de dados de endereço inválida.
+Erro S130: Seção de dados do veículo inválida.
+Erro S140: Seção de dados do pneu inválida.
+Erro S150: Problemas com insert na tabela sts_usuario.
+Erro S160: Problemas com insert na tabela sts_telefone_usuario.
+Erro S170: Problemas com insert na tabela sts_endereco_usuario.
+Erro S180: Problemas com insert na tabela sts_veiculo_usuario.
+
+(StsLogin.php)
+Erro S200: Senha inválida.
+Erro S210: E-mail inválido.
+Erro S220: Campo senha não foi preenchido.
+Erro S230: Campo e-mail não foi preenchido.
+
+(StsProfile.php)
+Erro S300: Erro ao carregar dados do perfil do usuário.
+
+(StsPassword.php)
+Erro S400: Problemas com update na tabela sts_usuario.
+Erro S410: Senha digitada não confere com a senha atual.
+Erro S420: Senha atual digitada está incorreta
+Erro S430: A nova senha e a confirmação não confere
+Erro S440: Problemas com select na tabela sts_usuario.
+
+(StsMaps.php)
+Erro S500: Problemas com select na tabela sts_borracharia.
+Erro S510: E-mail já cadastrado no sistema.
+Erro S520: Telefone já cadastrado no sistema.
+Erro S530: Coordenadas já cadastrada no sistema.
+Erro S540: Nome não preenchido, ou preenchido de forma inválida.
+Erro S550: E-mail ou telefone não preenchido, ou preenchido de forma inválida.
+Erro S560: Problemas com insert na tabela sts_borracharia.
+Erro S570: Problemas com insert na tabela sts_telefone_borracharia.
+Erro S580: Problemas com insert na tabela sts_endereco_borracharia.
+
+(Utils.php)
+Erro 404: Sessão encerrada, ou não iniciou uma.
